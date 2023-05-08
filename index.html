@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form Validation Example</title>
+</head>
+<body>
+	<h2>Form Validation Example</h2>
+	<form id="myForm">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name"><br><br>
+
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email"><br><br>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password"><br><br>
+
+		<label for="confirm_password">Confirm Password:</label>
+		<input type="password" id="confirm_password" name="confirm_password"><br><br>
+
+		<input type="submit" value="Submit">
+	</form>
+
+	<script src="form-validation.js"></script>
+</body>
+</html>
+// Get form and input field elements
+const myForm = document.getElementById("myForm");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirm_password");
+
+// Add form submit event listener
+myForm.addEventListener("submit", function(event) {
+	// Prevent form submission
+	event.preventDefault();
+
+	// Validate name
+	if (nameInput.value.trim() === "") {
+		alert("Please enter your name.");
+		nameInput.focus();
+		return false;
+	}
+
+	// Validate email
+	if (emailInput.value.trim() === "") {
+		alert("Please enter your email address.");
+		emailInput.focus();
+		return false;
+	} else if (!isValidEmail(emailInput.value.trim())) {
+		alert("Please enter a valid email address.");
+		emailInput.focus();
+		return false;
+	}
+
+	// Validate password
+	if (passwordInput.value.trim() === "") {
+		alert("Please enter a password.");
+		passwordInput.focus();
+		return false;
+	} else if (passwordInput.value.trim().length < 8) {
+		alert("Password must be at least 8 characters long.");
+		passwordInput.focus();
+		return false;
+	}
+
+	// Validate confirm password
+	if (confirmPasswordInput.value.trim() === "") {
+		alert("Please confirm your password.");
+		confirmPasswordInput.focus();
+		return false;
+	} else if (confirmPasswordInput.value.trim() !== passwordInput.value.trim()) {
+		alert("Passwords do not match.");
+		confirmPasswordInput.focus();
+		return false;
+	}
+
+	// Submit form if all validation checks pass
+	alert("Form submitted successfully!");
+	myForm.submit();
+});
+
+// Helper function to check if email is valid
+function isValidEmail(email) {
+	// Regular expression pattern for email validation
+	const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	return emailPattern.test(email);
+}
